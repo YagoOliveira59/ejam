@@ -87,7 +87,7 @@
 body {
   color: rgb(var(--foreground-rgb));
   background: #FFFFFF;
-  font-family: var(--manrope-font);
+  font-family: 'Manrope';
 }
 
 .check-icon {
