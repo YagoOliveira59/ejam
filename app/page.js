@@ -5,8 +5,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
 export default function Home() {
-  const [screenSize, setScreenSize] = useState(getCurrentDimension());
-
+  const [screenWidth, setScreenWidth] = useState(0);
   let [currentIndex, setCurrentIndex] = useState(1);
   let currentItemId = 1;
   const headerItems = [
@@ -95,21 +94,13 @@ export default function Home() {
   ];
   const currentStep = 3;
   function getCurrentDimension() {
-    if (typeof window !== "undefined")
-      return {
-        width: window.innerWidth,
-        height: window.innerHeight,
-      };
+    setScreenWidth(window.innerWidth);
   }
   useEffect(() => {
-    const updateDimension = () => {
-      setScreenSize(getCurrentDimension());
-    };
-    window.addEventListener("resize", updateDimension);
-    return () => {
-      window.removeEventListener("resize", updateDimension);
-    };
-  }, [screenSize]);
+    getCurrentDimension();
+    window.addEventListener('resize', getCurrentDimension);
+    return () => window.removeEventListener('resize', getCurrentDimension);
+  }, []);
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const handleScroll = () => {
@@ -148,10 +139,10 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center">
       <div
         className={`header-container w-full min-w-full  bg-white ${
-          screenSize.width >= 1200 ? "" : " fixed left-0 z-30"
+          screenWidth >= 1200 ? "" : " fixed left-0 z-30"
         }`}
       >
-        {screenSize.width >= 1200 ? (
+        {screenWidth >= 1200 ? (
           <div className={`w-full min-w-full bg-blue-hf flex justify-center`}>
             <div className="max-w-1500 w-1500 items-center justify-between normal:h-12.2 flex px-32">
               {headerItems.map((item) => (
@@ -211,7 +202,7 @@ export default function Home() {
         <div className="flex justify-center">
           <div
             className={`logos-container ${
-              screenSize.width >= 1200
+              screenWidth >= 1200
                 ? "normal:max-w-1500 normal:w-1500"
                 : "small:w-full small:min-w-full"
             }  normal:px-32 small:px-5 normal:h-24 small:h-60 flex justify-between items-center`}
@@ -219,21 +210,21 @@ export default function Home() {
             <Image
               src={`/clarifion_logo.png`}
               alt="heart icon"
-              width={screenSize.width >= 1200 ? 192 : 106.67}
-              height={screenSize.width >= 1200 ? 36 : 20}
+              width={screenWidth >= 1200 ? 192 : 106.67}
+              height={screenWidth >= 1200 ? 36 : 20}
             />
             <div className="flex normal:gap-8 small:gap-4">
               <Image
                 src={`/mcafee.svg`}
                 alt="heart icon"
-                width={screenSize.width >= 1200 ? 88 : 44}
-                height={screenSize.width >= 1200 ? 32 : 16}
+                width={screenWidth >= 1200 ? 88 : 44}
+                height={screenWidth >= 1200 ? 32 : 16}
               />
               <Image
                 src={`/norton.svg`}
                 alt="heart icon"
-                width={screenSize.width >= 1200 ? 82 : 41}
-                height={screenSize.width >= 1200 ? 32 : 16}
+                width={screenWidth >= 1200 ? 82 : 41}
+                height={screenWidth >= 1200 ? 32 : 16}
               />
             </div>
           </div>
@@ -241,7 +232,7 @@ export default function Home() {
       </div>
       <div
         className={`content-container  normal:px-32 small:px-5 text-black flex flex-col items-center ${
-          screenSize.width >= 1200 ? "max-w-1500" : "w-full min-w-full mt-32"
+          screenWidth >= 1200 ? "max-w-1500" : "w-full min-w-full mt-32"
         }`}
       >
         <div className="w-full min-w-full text-black font-normal mb-6">
@@ -252,7 +243,7 @@ export default function Home() {
             Lorem ipsum dolor sit amet, consectetur adipiscing
           </p>
         </div>
-        {screenSize.width >= 1200 ? (
+        {screenWidth >= 1200 ? (
           <div className="flex text-xl justify-between w-full mb-10">
             {stepperOptions.map((item) => (
               <div key={item.id}>
@@ -291,7 +282,7 @@ export default function Home() {
         )}
 
         <div>
-          {screenSize.width >= 1200 ? (
+          {screenWidth >= 1200 ? (
             <div
               className="product-container rounded-10 w-full mb-16 p-10 flex justify-between"
               style={{
@@ -597,9 +588,12 @@ export default function Home() {
               <div className="flex text-xs justify-between">
                 {stepperOptions.map((item) => (
                   <div key={item.id}>
-                    <div className="flex flex-col items-center justify-center gap-2"                   style={{
-                    fontWeight: currentStep === item.id ? "bold" : "",
-                  }}>
+                    <div
+                      className="flex flex-col items-center justify-center gap-2"
+                      style={{
+                        fontWeight: currentStep === item.id ? "bold" : "",
+                      }}
+                    >
                       {item.complete ? (
                         <Image
                           src={`/confirm.svg`}
@@ -633,8 +627,8 @@ export default function Home() {
                     className="product_image rounded-10"
                     src={`/clarifion.webp`}
                     alt="heart icon"
-                    width={screenSize.width >= 1200 ? 88 : 320}
-                    height={screenSize.width >= 1200 ? 32 : 328}
+                    width={screenWidth >= 1200 ? 88 : 320}
+                    height={screenWidth >= 1200 ? 32 : 328}
                   />
                 )}
               </div>
@@ -752,22 +746,22 @@ export default function Home() {
                 style={{ backgroundColor: "#EDF3FD" }}
               >
                 <div className="flex gap-4">
-                <div
-                      className="bg-blue-2 rounded-full flex items-center justify-center"
-                      style={{ width: 24, height: 24, minWidth: 24}}
+                  <div
+                    className="bg-blue-2 rounded-full flex items-center justify-center"
+                    style={{ width: 24, height: 24, minWidth: 24 }}
+                  >
+                    <div
+                      className="flex items-center justify-center"
+                      style={{ width: 19, height: 19 }}
                     >
-                      <div
-                        className="flex items-center justify-center"
-                        style={{ width: 19, height: 19 }}
-                      >
-                        <Image
-                          src={`/percent.svg`}
-                          alt="heart icon"
-                          width={12}
-                          height={12}
-                        />
-                      </div>
+                      <Image
+                        src={`/percent.svg`}
+                        alt="heart icon"
+                        width={12}
+                        height={12}
+                      />
                     </div>
+                  </div>
                   <p className="text-sm">
                     Save <span className="text-blue-2">53%</span> and get{" "}
                     <span className="text-blue-2"> 6 extra Clarifision</span>{" "}
@@ -841,7 +835,7 @@ export default function Home() {
       >
         <div
           className={`normal:px-32 small:px-5 normal:h-88 small:h-102 items-center flex font-normal text-white  ${
-            screenSize.width >= 1200
+            screenWidth >= 1200
               ? "justify-between w-1500 max-w-1500"
               : "flex-col justify-center gap-4 w-full min-w-full"
           }`}
@@ -854,8 +848,8 @@ export default function Home() {
             <Image
               src={`/lock.svg`}
               alt="lock icon"
-              width={screenSize.width >= 1200 ? 16 : 13}
-              height={screenSize.width >= 1200 ? 16 : 13}
+              width={screenWidth >= 1200 ? 16 : 13}
+              height={screenWidth >= 1200 ? 16 : 13}
             />
             <p>Secure 256-bit SSL encryption.</p>
           </div>
