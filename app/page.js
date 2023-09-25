@@ -136,9 +136,9 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center">
+    <main className="flex min-h-screen flex-col items-center" style={{ fontFamily: 'Manrope'}}>
       <div
-        className={`header-container w-full min-w-full  bg-white ${
+        className={`header-container w-full min-w-full bg-white ${
           screenWidth >= 1200 ? "" : " fixed left-0 z-30"
         }`}
       >
