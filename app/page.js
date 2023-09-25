@@ -106,7 +106,6 @@ export default function Home() {
   const handleScroll = () => {
     const position = window.pageYOffset;
     setScrollPosition(position);
-    console.log(position)
   };
 
   useEffect(() => {
