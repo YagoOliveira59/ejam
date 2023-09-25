@@ -106,6 +106,7 @@ export default function Home() {
   const handleScroll = () => {
     const position = window.pageYOffset;
     setScrollPosition(position);
+    console.log(position)
   };
 
   useEffect(() => {
@@ -534,7 +535,7 @@ export default function Home() {
                       <p>Free shipping</p>|
                       <div className="flex items-center gap-10">
                         <Image
-                          src={`/lock.svg`}
+                          src={`/lock_b.svg`}
                           alt="lock icon"
                           width={12}
                           height={12}
@@ -620,7 +621,7 @@ export default function Home() {
                 ))}
               </div>
               <div className="overflow-hidden flex justify-center items-center">
-                {scrollPosition >= 250 ? (
+                {scrollPosition >= 200 ? (
                   <div></div>
                 ) : (
                   <Image
@@ -782,9 +783,9 @@ export default function Home() {
                 <div className="rounded border-1 h-70 flex flex-col text-gray-ej text-xs py-2 px-4 gap-3">
                   <div className="flex items-center gap-3">
                     <p>Free shipping</p>|
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-1">
                       <Image
-                        src={`/lock.svg`}
+                        src={`/lock_b.svg`}
                         alt="lock icon"
                         width={12}
                         height={12}
